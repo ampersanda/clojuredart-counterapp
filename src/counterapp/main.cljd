@@ -1,0 +1,32 @@
+(ns counterapp.main
+  (:require
+    ["package:flutter/material.dart" :as m]
+    [cljd.flutter.alpha :as f]))
+
+(defn home-view []
+  (f/widget
+   :context context
+   :state   [counter 0]
+   (m/Scaffold.
+     :appBar
+     (m/AppBar.
+       :title (m/Text. "Counter App"))
+
+     :floatingActionButton
+     (m/FloatingActionButton.
+       :onPressed (fn [] (swap! counter inc))
+       :child     (m/Icon. m.Icons/add))
+
+     :body
+     (m/Center.
+       :child
+       (m/Text. (str @counter)
+                :style (m/TextStyle. :fontSize 24))))))
+
+(defn my-counter-app []
+  (f/widget
+   (m/MaterialApp.
+     :home (home-view))))
+
+(defn main []
+  (m/runApp (my-counter-app)))
